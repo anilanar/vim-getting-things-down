@@ -39,14 +39,14 @@ function! getting_things_down#show_todo()
       endif
     else
       let l:project_root = fnameescape(expand('%:p:h'))
-      let l:todo_file = glob(l:project_root . '/**/TODO.*')
+      let l:todo_file = glob(l:project_root . '/TODO.*')
       while empty(l:todo_file)
         let l:project_root = fnamemodify(l:project_root, ':h')
-        if fnamemodify(l:project_root, ':h') == $HOME
-          echohl WarningMsg | echo 'TODO file not found.' | echohl None
-          return 0
-        endif
-        let l:todo_file = get(glob(l:project_root . '/**/TODO.*', 0, 1), 0)
+        "if fnamemodify(l:project_root, ':h') == $HOME
+        "  echohl WarningMsg | echo 'TODO file not found.' | echohl None
+        "  return 0
+        "endif
+        let l:todo_file = get(glob(l:project_root . '/TODO.*', 0, 1), 0)
       endwhile
       execute 'edit ' . l:todo_file
       let b:from_file = fnameescape(expand('#'))
@@ -175,7 +175,7 @@ function! s:belongs_to_li(lnum, ...)
   " First call
   else
     let l:ref_line = nextnonblank(a:lnum)
-    return s:belongs_to_li(a:lnum - 1, 
+    return s:belongs_to_li(a:lnum - 1,
                 \          { 'type': ((l:ref_line == a:lnum ||
                 \                      !s:list_type(l:ref_line)) ?
                 \                        'text' : 'marker'),
@@ -279,7 +279,7 @@ endfunction
 
 " Convenience method for checking buffer-local show_todo_stats setting
 function! s:show_todo_stats()
-  if exists('b:gtdown_show_progress') 
+  if exists('b:gtdown_show_progress')
     return b:gtdown_show_progress
   elseif exists('g:gtdown_show_progress')
     return g:gtdown_show_progress
